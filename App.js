@@ -9,7 +9,6 @@ export default function App() {
   const [todos, setTodos] = useState([]);
 
   const addTodo = (title) => {
-
     setTodos(prev => [
       ...prev,
       {
@@ -17,6 +16,10 @@ export default function App() {
         title,
       }]
     )
+  }
+
+  const removeTodo = id => {
+    setTodos(prev => prev.filter(todo => todo.id !== id))
   }
 
   return (
@@ -28,7 +31,9 @@ export default function App() {
         <FlatList
           keyExtractor={item => item.id}
           data={todos}
-          renderItem={({item}) => <Todo todo={item}/>}
+          renderItem={({item}) => {
+            return <Todo todo={item} onRemove={removeTodo}/>
+          }}
         />
       </View>
 
