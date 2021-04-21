@@ -21,7 +21,9 @@ export const AddTodo = ({onSubmit}) => {
         value={value}
         placeholder="Type todo`s name"
       />
-      <Button title="Add" onPress={pressHandler}/>
+      <View>
+        <Button title="Add" onPress={pressHandler}/>
+      </View>
     </View>
   )
 }
@@ -39,5 +41,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: '#3949ab',
     padding: 10,
+  },
+  button: {
+    width: '20%'
   }
 })
