@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Alert, StyleSheet, TextInput, Button } from 'react-native';
+import { THEME } from '../theme';
 
 export const AddTodo = ({onSubmit}) => {
   const [value, setValue] = useState('');
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     width: '70%',
     borderStyle: 'solid',
     borderBottomWidth: 2,
-    borderBottomColor: '#3949ab',
+    borderBottomColor: THEME.PRIMARY_COLOR,
     padding: 10,
   },
   button: {
