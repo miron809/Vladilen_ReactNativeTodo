@@ -26,7 +26,7 @@ export const EditModal = ({visible, onCancel, value, onSave}) => {
           <Button
             title="Save"
             color={THEME.RED}
-            onPress={saveHandler()}
+            onPress={saveHandler}
           />
         </View>
       </View>
