@@ -1,28 +1,14 @@
-import React, {useState, useContext} from 'react';
+import React, {useContext} from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { THEME } from './theme';
 import { Navbar } from './components/Navbar';
 import { MainScreen } from './screens/MainScreen';
 import { TodoScreen } from './screens/TodoScreen';
-import { TodoContext } from './context/todo/todoContext';
+import { ScreenContext } from './context/screen/screenContext';
 
 export const MainLayout = () => {
-  const {todos, addTodo, removeTodo, updateTodo} = useContext(TodoContext)
-  const [todoId, setTodoId] = useState();
-  // const [todos, setTodos] = useState([
-  //   {id: '1', title: 'First'},
-  //   {id: '2', title: 'Second'}
-  // ]);
+  const {todoId} = useContext(ScreenContext)
 
-  // const addTodo = (title) => {
-  //   setTodos(prev => [
-  //     ...prev,
-  //     {
-  //       id: Date.now().toString(),
-  //       title,
-  //     }]
-  //   )
-  // }
 
   // const removeTodo = id => {
   //   const todo = todos.find(t => t.id === id)
@@ -46,37 +32,12 @@ export const MainLayout = () => {
   //   );
   // }
 
-  // const updateTodo = (id, title) => {
-  //   setTodos(old => old.map(todo=> {
-  //     if(todo.id === id) {
-  //       todo.title = title;
-  //     }
-  //     return todo;
-  //   }))
-  // }
-
-  let content = (
-    <MainScreen
-      addTodo={addTodo}
-      todos={todos}
-      removeTodo={removeTodo}
-      openTodo={setTodoId} />
-  )
-
-  if (todoId) {
-    const selectedTodo = todos.find(todo => todo.id === todoId);
-    content = <TodoScreen
-      onSave={updateTodo}
-      removeTodo={removeTodo}
-      goBack={() => setTodoId(null)}
-      todo={selectedTodo}
-    />
-  }
-
   return (
     <View>
       <Navbar title='Todo App'/>
-      <View style={styles.container}>{content}</View>
+      <View style={styles.container}>
+        {todoId ? <TodoScreen /> : <MainScreen />}
+      </View>
     </View>
   )
 }
