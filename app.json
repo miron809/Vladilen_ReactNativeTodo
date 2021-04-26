@@ -3,7 +3,7 @@
     "name": "Vladilen_ReactNativeTodo",
     "slug": "Vladilen_ReactNativeTodo",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
