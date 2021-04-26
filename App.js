@@ -17,11 +17,13 @@ export default function App() {
   const [isReady, setIsReady] = useState(false);
 
   if (!isReady) {
-    return <AppLoading
-      startAsync={loadApplication}
-      onError={error => console.log(error)}
-      onFinish={() => setIsReady(true)}
-    />
+    return (
+      <AppLoading
+        startAsync={loadApplication}
+        onError={error => console.log(error)}
+        onFinish={() => setIsReady(true)}
+      />
+    )
   }
 
   return (
