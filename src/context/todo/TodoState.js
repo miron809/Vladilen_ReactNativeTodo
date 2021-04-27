@@ -17,7 +17,7 @@ import { ScreenContext } from '../screen/screenContext';
 export const TodoState = ({children}) => {
   const initialState = {
     todos: [],
-    loading: false,
+    loading: true,
     error: null,
   }
   const {changeScreen} = useContext(ScreenContext)
@@ -34,14 +34,15 @@ export const TodoState = ({children}) => {
   }
 
   const fetchTodos = async () => {
+    showLoader();
     const response = await fetch('https://rn-todo-app-51546-default-rtdb.europe-west1.firebasedatabase.app/todos.json', {
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
     })
     const data = await response.json();
     const todos = Object.keys(data).map(key => ({...data[key], id: key}))
-    setTimeout(() => dispatch({type: FETCH_TODOS, todos}), 2000)
-    console.log(todos)
+    dispatch({type: FETCH_TODOS, todos});
+    hideLoader();
   }
 
   const updateTodo = (id, title) => dispatch({type: UPDATE_TODO, id, title})
