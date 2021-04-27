@@ -42,8 +42,10 @@ export const TodoState = ({children}) => {
         headers: {'Content-Type': 'application/json'},
       })
       const data = await response.json()
-      const todos = Object.keys(data).map(key => ({...data[key], id: key}))
-      dispatch({type: FETCH_TODOS, todos});
+      if (data) {
+        const todos = Object.keys(data).map(key => ({...data[key], id: key}))
+        dispatch({type: FETCH_TODOS, todos});
+      }
     } catch (e) {
       showError('Something went wrong...')
       console.log(e)
@@ -52,7 +54,23 @@ export const TodoState = ({children}) => {
     }
   }
 
-  const updateTodo = (id, title) => dispatch({type: UPDATE_TODO, id, title})
+  const updateTodo = async (id, title) => {
+    showLoader();
+    clearError();
+    try {
+      await fetch(`https://rn-todo-app-51546-default-rtdb.europe-west1.firebasedatabase.app/todos/${id}.json`, {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({title}),
+      })
+      dispatch({type: UPDATE_TODO, id, title})
+    } catch (e) {
+      showError('Something went wrong...')
+      console.log(e)
+    } finally {
+      hideLoader();
+    }
+  }
   const removeTodo = id => {
     const todo = state.todos.find(t => t.id === id)
 
@@ -67,8 +85,12 @@ export const TodoState = ({children}) => {
         {
           text: "Remove",
           style: "positive",
-          onPress: () => {
+          onPress: async () => {
             changeScreen(null)
+            await fetch(`https://rn-todo-app-51546-default-rtdb.europe-west1.firebasedatabase.app/todos/${id}.json`, {
+              method: 'DELETE',
+              headers: {'Content-Type': 'application/json'}
+            })
             dispatch({type: REMOVE_TODO, id})
           }
         }
