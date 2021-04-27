@@ -35,14 +35,21 @@ export const TodoState = ({children}) => {
 
   const fetchTodos = async () => {
     showLoader();
-    const response = await fetch('https://rn-todo-app-51546-default-rtdb.europe-west1.firebasedatabase.app/todos.json', {
-      method: 'GET',
-      headers: {'Content-Type': 'application/json'},
-    })
-    const data = await response.json();
-    const todos = Object.keys(data).map(key => ({...data[key], id: key}))
-    dispatch({type: FETCH_TODOS, todos});
-    hideLoader();
+    clearError();
+    try {
+      const response = await fetch('https://rn-todo-app-51546-default-rtdb.europe-west1.firebasedatabase.app/todos.json', {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      })
+      const data = await response.json()
+      const todos = Object.keys(data).map(key => ({...data[key], id: key}))
+      dispatch({type: FETCH_TODOS, todos});
+    } catch (e) {
+      showError('Something went wrong...')
+      console.log(e)
+    } finally {
+      hideLoader();
+    }
   }
 
   const updateTodo = (id, title) => dispatch({type: UPDATE_TODO, id, title})
